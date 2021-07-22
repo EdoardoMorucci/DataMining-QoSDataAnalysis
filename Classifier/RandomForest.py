@@ -201,6 +201,7 @@ def randomForest_with_SMOTENN():
 #    pipeline = make_pipeline(smot, clf_tree, verbose=True)
     score_array = []
     accuracy = []
+
     for i in range(1, n_fold_split):
         X_train = np.load(f"split/Xtr_fold_{i}.npy")
         X_test = np.load(f"split/Xte_fold_{i}.npy")

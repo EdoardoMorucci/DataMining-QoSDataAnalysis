@@ -21,6 +21,8 @@ def tree_on_entire_dataset():
     clf_tree = DecisionTreeClassifier(criterion="entropy", max_depth=bdt_max_depth)
     accuracy = []
     score_array = []
+    sumLeaves = []
+    sumNodes = []
     for i in range(1, n_fold_split):
         X_train = np.load(f"split/Xtr_fold_{i}.npy")
         X_test = np.load(f"split/Xte_fold_{i}.npy")
@@ -30,6 +32,14 @@ def tree_on_entire_dataset():
         y_pred = clf.predict(X_test)
         accuracy.append(accuracy_score(y_test, y_pred))
         score_array.append(precision_recall_fscore_support(y_test, y_pred, average=None))
+        sumLeaves.append(clf.get_n_leaves())
+        sumNodes.append(clf.tree_.node_count)
+
+    print("Average leaves")
+    print(np.mean(sumLeaves, axis=0))
+
+    print("Average nodes")
+    print(np.mean(sumNodes, axis=0))
 
     avg_accuracy = np.mean(accuracy, axis=0)
     print("Accuracy score for BDT")
@@ -47,6 +57,8 @@ def tree_on_entire_dataset_feature_selection():
     clf_tree = DecisionTreeClassifier(criterion="entropy", max_depth=bdt_max_depth)
     accuracy = []
     score_array = []
+    sumLeaves = []
+    sumNodes = []
     for i in range(1, n_fold_split):
         X_train = np.load(f"split/Xtr_fold_{i}.npy")
         X_test = np.load(f"split/Xte_fold_{i}.npy")
@@ -60,6 +72,14 @@ def tree_on_entire_dataset_feature_selection():
         y_pred = clf.predict(X_new_test)
         accuracy.append(accuracy_score(y_test, y_pred))
         score_array.append(precision_recall_fscore_support(y_test, y_pred, average=None))
+        sumLeaves.append(clf.get_n_leaves())
+        sumNodes.append(clf.tree_.node_count)
+
+    print("Average leaves")
+    print(np.mean(sumLeaves, axis=0))
+
+    print("Average nodes")
+    print(np.mean(sumNodes, axis=0))
 
     avg_accuracy = np.mean(accuracy, axis=0)
     print("Accuracy score for BDT with feature selection")
@@ -81,6 +101,8 @@ def tree_with_undersampling():
 
     score_array = []
     accuracy = []
+    sumLeaves = []
+    sumNodes = []
     for i in range(1, n_fold_split):
         X_train = np.load(f"split/Xtr_fold_{i}.npy")
         X_test = np.load(f"split/Xte_fold_{i}.npy")
@@ -89,6 +111,14 @@ def tree_with_undersampling():
         y_pred = pipeline.fit(X_train, y_train).predict(X_test)
         accuracy.append(accuracy_score(y_test, y_pred))
         score_array.append(precision_recall_fscore_support(y_test, y_pred, average=None))
+        sumLeaves.append(clf_tree.get_n_leaves())
+        sumNodes.append(clf_tree.tree_.node_count)
+
+    print("Average leaves")
+    print(np.mean(sumLeaves, axis=0))
+
+    print("Average nodes")
+    print(np.mean(sumNodes, axis=0))
 
     avg_score = np.mean(score_array, axis=0)
     avg_accuracy = np.mean(accuracy, axis=0)
@@ -109,6 +139,8 @@ def tree_with_undersampling_feature_selection():
 
     score_array = []
     accuracy = []
+    sumLeaves = []
+    sumNodes = []
     for i in range(1, n_fold_split):
         X_train = np.load(f"split/Xtr_fold_{i}.npy")
         X_test = np.load(f"split/Xte_fold_{i}.npy")
@@ -122,6 +154,14 @@ def tree_with_undersampling_feature_selection():
         y_pred = pipeline.fit(X_new_train, y_train).predict(X_new_test)
         accuracy.append(accuracy_score(y_test, y_pred))
         score_array.append(precision_recall_fscore_support(y_test, y_pred, average=None))
+        sumLeaves.append(clf_tree.get_n_leaves())
+        sumNodes.append(clf_tree.tree_.node_count)
+
+    print("Average leaves")
+    print(np.mean(sumLeaves, axis=0))
+
+    print("Average nodes")
+    print(np.mean(sumNodes, axis=0))
 
     avg_score = np.mean(score_array, axis=0)
     avg_accuracy = np.mean(accuracy, axis=0)
@@ -142,6 +182,8 @@ def tree_with_oversampling():
 
     score_array = []
     accuracy = []
+    sumLeaves = []
+    sumNodes = []
     for i in range(1, n_fold_split):
         X_train = np.load(f"split/Xtr_fold_{i}.npy")
         X_test = np.load(f"split/Xte_fold_{i}.npy")
@@ -150,6 +192,14 @@ def tree_with_oversampling():
         y_pred = pipeline.fit(X_train, y_train).predict(X_test)
         accuracy.append(accuracy_score(y_test, y_pred))
         score_array.append(precision_recall_fscore_support(y_test, y_pred, average=None))
+        sumLeaves.append(clf_tree.get_n_leaves())
+        sumNodes.append(clf_tree.tree_.node_count)
+
+    print("Average leaves")
+    print(np.mean(sumLeaves, axis=0))
+
+    print("Average nodes")
+    print(np.mean(sumNodes, axis=0))
 
     avg_score = np.mean(score_array, axis=0)
     avg_accuracy = np.mean(accuracy, axis=0)
@@ -170,6 +220,8 @@ def tree_with_oversampling_feature_selection():
 
     score_array = []
     accuracy = []
+    sumLeaves = []
+    sumNodes = []
     for i in range(1, n_fold_split):
         X_train = np.load(f"split/Xtr_fold_{i}.npy")
         X_test = np.load(f"split/Xte_fold_{i}.npy")
@@ -181,6 +233,14 @@ def tree_with_oversampling_feature_selection():
         y_pred = pipeline.fit(X_new_train, y_train).predict(X_new_test)
         accuracy.append(accuracy_score(y_test, y_pred))
         score_array.append(precision_recall_fscore_support(y_test, y_pred, average=None))
+        sumLeaves.append(clf_tree.get_n_leaves())
+        sumNodes.append(clf_tree.tree_.node_count)
+
+    print("Average leaves")
+    print(np.mean(sumLeaves, axis=0))
+
+    print("Average nodes")
+    print(np.mean(sumNodes, axis=0))
 
     avg_score = np.mean(score_array, axis=0)
     avg_accuracy = np.mean(accuracy, axis=0)
@@ -200,6 +260,8 @@ def tree_with_SMOTENN():
 #    pipeline = make_pipeline(smot, clf_tree, verbose=True)
     score_array = []
     accuracy = []
+    sumLeaves = []
+    sumNodes = []
     for i in range(1, n_fold_split):
         X_train = np.load(f"split/Xtr_fold_{i}.npy")
         X_test = np.load(f"split/Xte_fold_{i}.npy")
@@ -211,6 +273,15 @@ def tree_with_SMOTENN():
         y_pred = clf.predict(X_test)
         accuracy.append(accuracy_score(y_test, y_pred))
         score_array.append(precision_recall_fscore_support(y_test, y_pred, average=None))
+        sumLeaves.append(clf.get_n_leaves())
+        sumNodes.append(clf.tree_.node_count)
+
+    print("Average leaves")
+    print(np.mean(sumLeaves, axis=0))
+
+    print("Average nodes")
+    print(np.mean(sumNodes, axis=0))
+
     avg_score = np.mean(score_array, axis=0)
     avg_accuracy = np.mean(accuracy, axis=0)
     print("Accuracy score for SMOTE tree")

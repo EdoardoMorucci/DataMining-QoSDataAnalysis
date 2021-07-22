@@ -96,7 +96,7 @@ def knn_on_undersampled_dataset():
     print(avg_accuracy)
 
     avg_score = np.mean(score_array, axis=0)
-    print("Prec - Recall - F1 values for undersampled tree")
+    print("Prec - Recall - F1 values for undersampled KNN")
     print(avg_score)
 
     # Save CSV file
@@ -128,7 +128,7 @@ def knn_on_undersampled_dataset_feature_selection():
     print(avg_accuracy)
 
     avg_score = np.mean(score_array, axis=0)
-    print("Prec - Recall - F1 values for undersampled tree feature selection")
+    print("Prec - Recall - F1 values for undersampled KNN feature selection")
     print(avg_score)
 
     # Save CSV file
@@ -156,7 +156,7 @@ def knn_on_oversampled_dataset():
     print(avg_accuracy)
 
     avg_score = np.mean(score_array, axis=0)
-    print("Prec - Recall - F1 values for oversampled tree")
+    print("Prec - Recall - F1 values for oversampled KNN")
     print(avg_score)
 
     # Save CSV file
@@ -187,7 +187,7 @@ def knn_on_oversampled_dataset_feature_selection():
     print(avg_accuracy)
 
     avg_score = np.mean(score_array, axis=0)
-    print("Prec - Recall - F1 values for oversampled tree feature selection")
+    print("Prec - Recall - F1 values for oversampled KNN feature selection")
     print(avg_score)
 
     # Save CSV file

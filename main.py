@@ -8,10 +8,10 @@ under_sampling_c3 = 635
 
 over_sampling_c1 = 40924
 over_sampling_c2 = 20000
-over_sampling_c3 = 3000
+over_sampling_c3 = 10000
 
 # Feature selection
-feature_selection = 1
+feature_selection = 0
 
 # Classifier parameters
 knn_neighbors = 5
@@ -25,7 +25,7 @@ oversampling = 1
 SMOTE = 0
 
 # Choose classifier
-KNN = 1
+KNN = 0
 BDT = 1
 naiveGaussian = 0
 RF = 0
