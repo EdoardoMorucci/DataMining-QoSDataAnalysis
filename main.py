@@ -14,12 +14,12 @@ over_sampling_c3 = 3000
 feature_selection = 1
 
 # Classifier parameters
-knn_neighbors = 10
-bdt_max_depth = 11
+knn_neighbors = 5
+bdt_max_depth = 6
 rf_max_depth = 6
 
 # Choose the rebalancing method
-entire = 0
+entire = 1
 undersampling = 1
 oversampling = 1
 SMOTE = 0
