@@ -19,7 +19,7 @@ from main import over_sampling_c1, over_sampling_c2, over_sampling_c3
 
 
 def RandomForest_on_entire_dataset():
-    rf = RandomForestClassifier(criterion="entropy", max_depth=rf_max_depth)
+    rf = RandomForestClassifier(criterion="entropy")
     score_array = []
     accuracy = []
     num_leaves = []
@@ -64,7 +64,7 @@ def RandomForest_on_entire_dataset():
 
 
 def RandomForest_on_entire_dataset_feature_selection():
-    rf = RandomForestClassifier(criterion="entropy", max_depth=rf_max_depth)
+    rf = RandomForestClassifier(criterion="entropy")
     score_array = []
     accuracy = []
     num_leaves = []
@@ -80,9 +80,14 @@ def RandomForest_on_entire_dataset_feature_selection():
         X_new_test = selection.transform(X_test)
         y_pred = trained_rf.predict(X_new_test)
 
+        num_leaves_test = 0
+        num_nodes_test = 0
         for tree in trained_rf.estimators_:
-            num_leaves.append(tree.get_n_leaves())
-            num_nodes.append(tree.tree_.node_count)
+            num_leaves_test += tree.get_n_leaves()
+            num_nodes_test += tree.tree_.node_count
+        print(num_leaves_test)
+        num_leaves.append(num_leaves_test)
+        num_nodes.append(num_nodes_test)
 
         accuracy.append(accuracy_score(y_test, y_pred))
         score_array.append(precision_recall_fscore_support(y_test, y_pred, average=None))
@@ -108,7 +113,7 @@ def RandomForest_on_entire_dataset_feature_selection():
 
 def RandomForest_on_undersampled_dataset():
     ros = RandomUnderSampler(sampling_strategy={0: under_sampling_c1, 1: under_sampling_c2, 2: under_sampling_c3}, random_state=50, replacement=True)
-    rf = RandomForestClassifier(criterion="entropy", max_depth=rf_max_depth)
+    rf = RandomForestClassifier(criterion="entropy")
     pipeline = make_pipeline(ros, rf)
 
     score_array = []
@@ -122,9 +127,14 @@ def RandomForest_on_undersampled_dataset():
         y_test = np.load(f"split/yte_fold_{i}.npy")
         y_pred = pipeline.fit(X_train, y_train).predict(X_test)
 
+        num_leaves_test = 0
+        num_nodes_test = 0
         for tree in rf.estimators_:
-            num_leaves.append(tree.get_n_leaves())
-            num_nodes.append(tree.tree_.node_count)
+            num_leaves_test += tree.get_n_leaves()
+            num_nodes_test += tree.tree_.node_count
+        print(num_leaves_test)
+        num_leaves.append(num_leaves_test)
+        num_nodes.append(num_nodes_test)
 
 
         accuracy.append(accuracy_score(y_test, y_pred))
@@ -150,7 +160,7 @@ def RandomForest_on_undersampled_dataset():
 
 def RandomForest_on_undersampled_dataset_feature_selection():
     ros = RandomUnderSampler(sampling_strategy={0: under_sampling_c1, 1: under_sampling_c2, 2: under_sampling_c3}, random_state=50, replacement=True)
-    rf = RandomForestClassifier(criterion="entropy", max_depth=rf_max_depth)
+    rf = RandomForestClassifier(criterion="entropy")
     pipeline = make_pipeline(ros, rf)
 
     score_array = []
@@ -167,9 +177,14 @@ def RandomForest_on_undersampled_dataset_feature_selection():
         X_new_test = selection.transform(X_test)
         y_pred = pipeline.fit(X_new_train, y_train).predict(X_new_test)
 
+        num_leaves_test = 0
+        num_nodes_test = 0
         for tree in rf.estimators_:
-            num_leaves.append(tree.get_n_leaves())
-            num_nodes.append(tree.tree_.node_count)
+            num_leaves_test += tree.get_n_leaves()
+            num_nodes_test += tree.tree_.node_count
+        print(num_leaves_test)
+        num_leaves.append(num_leaves_test)
+        num_nodes.append(num_nodes_test)
 
         accuracy.append(accuracy_score(y_test, y_pred))
         score_array.append(precision_recall_fscore_support(y_test, y_pred, average=None))
@@ -194,7 +209,7 @@ def RandomForest_on_undersampled_dataset_feature_selection():
 
 def RandomForest_on_oversampled_dataset():
     ros = RandomOverSampler(sampling_strategy={0:over_sampling_c1, 1:over_sampling_c2, 2:over_sampling_c3}, random_state=10)
-    rf = RandomForestClassifier(criterion="entropy", max_depth=rf_max_depth)
+    rf = RandomForestClassifier(criterion="entropy")
     pipeline = make_pipeline(ros, rf)
 
     score_array = []
@@ -208,9 +223,14 @@ def RandomForest_on_oversampled_dataset():
         y_test = np.load(f"split/yte_fold_{i}.npy")
         y_pred = pipeline.fit(X_train, y_train).predict(X_test)
 
+        num_leaves_test = 0
+        num_nodes_test = 0
         for tree in rf.estimators_:
-            num_leaves.append(tree.get_n_leaves())
-            num_nodes.append(tree.tree_.node_count)
+            num_leaves_test += tree.get_n_leaves()
+            num_nodes_test += tree.tree_.node_count
+        print(num_leaves_test)
+        num_leaves.append(num_leaves_test)
+        num_nodes.append(num_nodes_test)
 
         accuracy.append(accuracy_score(y_test, y_pred))
         score_array.append(precision_recall_fscore_support(y_test, y_pred, average=None))
@@ -234,7 +254,7 @@ def RandomForest_on_oversampled_dataset():
 
 def RandomForest_on_oversampled_dataset_feature_selection():
     ros = RandomOverSampler(sampling_strategy={0:over_sampling_c1, 1:over_sampling_c2, 2:over_sampling_c3}, random_state=10)
-    rf = RandomForestClassifier(criterion="entropy", max_depth=rf_max_depth)
+    rf = RandomForestClassifier(criterion="entropy")
     pipeline = make_pipeline(ros, rf)
 
     score_array = []
@@ -251,9 +271,16 @@ def RandomForest_on_oversampled_dataset_feature_selection():
         X_new_train = selection.transform(X_train)
         X_new_test = selection.transform(X_test)
         y_pred = pipeline.fit(X_new_train, y_train).predict(X_new_test)
+
+        num_leaves_test = 0
+        num_nodes_test = 0
         for tree in rf.estimators_:
-            num_leaves.append(tree.get_n_leaves())
-            num_nodes.append(tree.tree_.node_count)
+            num_leaves_test += tree.get_n_leaves()
+            num_nodes_test += tree.tree_.node_count
+        print(num_leaves_test)
+        num_leaves.append(num_leaves_test)
+        num_nodes.append(num_nodes_test)
+
         accuracy.append(accuracy_score(y_test, y_pred))
         score_array.append(precision_recall_fscore_support(y_test, y_pred, average=None))
 
@@ -276,11 +303,12 @@ def RandomForest_on_oversampled_dataset_feature_selection():
 
 def randomForest_with_SMOTENN():
     smot = SMOTEENN(sampling_strategy="auto", random_state=10, n_jobs=4)
-    rf = RandomForestClassifier(criterion="entropy", max_depth=rf_max_depth)
+    rf = RandomForestClassifier(criterion="entropy")
 #    pipeline = make_pipeline(smot, clf_tree, verbose=True)
     score_array = []
     accuracy = []
-
+    num_leaves = []
+    num_nodes = []
     for i in range(1, n_fold_split):
         X_train = np.load(f"split/Xtr_fold_{i}.npy")
         X_test = np.load(f"split/Xte_fold_{i}.npy")
@@ -290,9 +318,24 @@ def randomForest_with_SMOTENN():
 #        y_pred = pipeline.fit(X_train, y_train).predict(X_test)
         trained_rf = rf.fit(X_train_smtk, y_train_smtk)
         y_pred = trained_rf.predict(X_test)
+
+        num_leaves_test = 0
+        num_nodes_test = 0
+        for tree in trained_rf.estimators_:
+            num_leaves_test += tree.get_n_leaves()
+            num_nodes_test += tree.tree_.node_count
+        print(num_leaves_test)
+        num_leaves.append(num_leaves_test)
+        num_nodes.append(num_nodes_test)
+
         accuracy.append(accuracy_score(y_test, y_pred))
         score_array.append(precision_recall_fscore_support(y_test, y_pred, average=None))
 
+    print("rf total data num leaves")
+    print(np.mean(num_leaves, axis=0))
+
+    print("rf total data num nodes")
+    print(np.mean(num_nodes, axis=0))
     avg_accuracy = np.mean(accuracy, axis=0)
     print(avg_accuracy)
     print("Accuracy score for SMOTE RF")
