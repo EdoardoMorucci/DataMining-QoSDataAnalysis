@@ -20,15 +20,15 @@ rf_max_depth = 6
 
 # Choose the rebalancing method
 entire = 1
-undersampling = 1
-oversampling = 1
+undersampling = 0
+oversampling = 0
 SMOTE = 0
 
 # Choose classifier
 KNN = 0
-BDT = 1
+BDT = 0
 naiveGaussian = 0
-RF = 0
+RF = 1
 
 import Classifier.BinaryDecisionTree as bdt
 import Classifier.KNN as knn
