@@ -8,27 +8,27 @@ under_sampling_c3 = 635
 
 over_sampling_c1 = 40924
 over_sampling_c2 = 20000
-over_sampling_c3 = 10000
+over_sampling_c3 = 3000
 
 # Feature selection
 feature_selection = 0
 
 # Classifier parameters
-knn_neighbors = 5
-bdt_max_depth = 6
+knn_neighbors = 10
+bdt_max_depth = 11
 rf_max_depth = 6
 
 # Choose the rebalancing method
-entire = 1
+entire = 0
 undersampling = 0
 oversampling = 0
-SMOTE = 0
+SMOTE = 1
 
 # Choose classifier
-KNN = 0
-BDT = 0
+KNN = 1
+BDT = 1
 naiveGaussian = 0
-RF = 1
+RF = 0
 
 import Classifier.BinaryDecisionTree as bdt
 import Classifier.KNN as knn
@@ -46,6 +46,8 @@ if __name__ == '__main__':
                 bdt.tree_with_undersampling_feature_selection()
             if oversampling == 1:
                 bdt.tree_with_oversampling_feature_selection()
+            if SMOTE == 1:
+                bdt.tree_with_SMOTENN_feature_selection()
         else:
             if entire == 1:
                 bdt.tree_on_entire_dataset()
@@ -65,6 +67,8 @@ if __name__ == '__main__':
                 knn.knn_on_undersampled_dataset_feature_selection()
             if oversampling == 1:
                 knn.knn_on_oversampled_dataset_feature_selection()
+            if SMOTE == 1:
+                knn.knn_with_SMOTENN_feature_selection()
         else:
             if entire == 1:
                 knn.knn_on_entire_dataset()
@@ -84,6 +88,8 @@ if __name__ == '__main__':
                 naive_gaus.naive_GaussianBayesClassifier_on_undersampled_dataset_feature_selection()
             if oversampling == 1:
                 naive_gaus.naive_GaussianBayesClassifier_on_oversampled_dataset_feature_selection()
+            if SMOTE == 1:
+                naive_gaus.naive_GaussianBayesClassifier_with_SMOTENN_feature_selection()
         else:
             if entire == 1:
                 naive_gaus.naive_GaussianBayesClassifier_on_entire_dataset()
@@ -103,6 +109,8 @@ if __name__ == '__main__':
                 rf.RandomForest_on_undersampled_dataset_feature_selection()
             if oversampling == 1:
                 rf.RandomForest_on_oversampled_dataset_feature_selection()
+            if SMOTE == 1:
+                rf.randomForest_with_SMOTENN_feature_selection()
         else:
             if entire == 1:
                 rf.RandomForest_on_entire_dataset()

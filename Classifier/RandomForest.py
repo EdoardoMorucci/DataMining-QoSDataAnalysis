@@ -30,13 +30,11 @@ def RandomForest_on_entire_dataset():
         y_train = np.load(f"split/ytr_fold_{i}.npy")
         y_test = np.load(f"split/yte_fold_{i}.npy")
         trained_rf = rf.fit(X_train, y_train)
-        print(len(trained_rf.estimators_))
         num_leaves_test = 0
         num_nodes_test = 0
         for tree in trained_rf.estimators_:
             num_leaves_test += tree.get_n_leaves()
             num_nodes_test += tree.tree_.node_count
-        print(num_leaves_test)
         num_leaves.append(num_leaves_test)
         num_nodes.append(num_nodes_test)
 
@@ -85,7 +83,6 @@ def RandomForest_on_entire_dataset_feature_selection():
         for tree in trained_rf.estimators_:
             num_leaves_test += tree.get_n_leaves()
             num_nodes_test += tree.tree_.node_count
-        print(num_leaves_test)
         num_leaves.append(num_leaves_test)
         num_nodes.append(num_nodes_test)
 
@@ -132,7 +129,6 @@ def RandomForest_on_undersampled_dataset():
         for tree in rf.estimators_:
             num_leaves_test += tree.get_n_leaves()
             num_nodes_test += tree.tree_.node_count
-        print(num_leaves_test)
         num_leaves.append(num_leaves_test)
         num_nodes.append(num_nodes_test)
 
@@ -182,7 +178,6 @@ def RandomForest_on_undersampled_dataset_feature_selection():
         for tree in rf.estimators_:
             num_leaves_test += tree.get_n_leaves()
             num_nodes_test += tree.tree_.node_count
-        print(num_leaves_test)
         num_leaves.append(num_leaves_test)
         num_nodes.append(num_nodes_test)
 
@@ -228,7 +223,6 @@ def RandomForest_on_oversampled_dataset():
         for tree in rf.estimators_:
             num_leaves_test += tree.get_n_leaves()
             num_nodes_test += tree.tree_.node_count
-        print(num_leaves_test)
         num_leaves.append(num_leaves_test)
         num_nodes.append(num_nodes_test)
 
@@ -277,7 +271,6 @@ def RandomForest_on_oversampled_dataset_feature_selection():
         for tree in rf.estimators_:
             num_leaves_test += tree.get_n_leaves()
             num_nodes_test += tree.tree_.node_count
-        print(num_leaves_test)
         num_leaves.append(num_leaves_test)
         num_nodes.append(num_nodes_test)
 
@@ -324,7 +317,6 @@ def randomForest_with_SMOTENN():
         for tree in trained_rf.estimators_:
             num_leaves_test += tree.get_n_leaves()
             num_nodes_test += tree.tree_.node_count
-        print(num_leaves_test)
         num_leaves.append(num_leaves_test)
         num_nodes.append(num_nodes_test)
 
@@ -347,3 +339,54 @@ def randomForest_with_SMOTENN():
     # Save CSV file
     a = np.array(avg_score)
     np.savetxt('CSV Result/RF/rf_SMOTE.csv', a, delimiter=';')
+
+def randomForest_with_SMOTENN_feature_selection():
+    smot = SMOTEENN(sampling_strategy="auto", random_state=10, n_jobs=4)
+    rf = RandomForestClassifier(criterion="entropy")
+#    pipeline = make_pipeline(smot, clf_tree, verbose=True)
+    score_array = []
+    accuracy = []
+    num_leaves = []
+    num_nodes = []
+    for i in range(1, n_fold_split):
+        X_train = np.load(f"split/Xtr_fold_{i}.npy")
+        X_test = np.load(f"split/Xte_fold_{i}.npy")
+        y_train = np.load(f"split/ytr_fold_{i}.npy")
+        y_test = np.load(f"split/yte_fold_{i}.npy")
+
+        selection = SelectKBest(chi2, k=20).fit(X_train, y_train)
+        X_new_train = selection.transform(X_train)
+        X_new_test = selection.transform(X_test)
+
+        X_train_smtk, y_train_smtk = smot.fit_resample(X_new_train, y_train)
+#        y_pred = pipeline.fit(X_train, y_train).predict(X_test)
+        trained_rf = rf.fit(X_train_smtk, y_train_smtk)
+        y_pred = trained_rf.predict(X_new_test)
+
+        num_leaves_test = 0
+        num_nodes_test = 0
+        for tree in trained_rf.estimators_:
+            num_leaves_test += tree.get_n_leaves()
+            num_nodes_test += tree.tree_.node_count
+        num_leaves.append(num_leaves_test)
+        num_nodes.append(num_nodes_test)
+
+        accuracy.append(accuracy_score(y_test, y_pred))
+        score_array.append(precision_recall_fscore_support(y_test, y_pred, average=None))
+
+    print("rf total data num leaves")
+    print(np.mean(num_leaves, axis=0))
+
+    print("rf total data num nodes")
+    print(np.mean(num_nodes, axis=0))
+    avg_accuracy = np.mean(accuracy, axis=0)
+    print(avg_accuracy)
+    print("Accuracy score for SMOTE RF")
+
+    avg_score = np.mean(score_array, axis=0)
+    print("Prec - Recall - F1 values for SMOTEEN RF")
+    print(avg_score)
+
+    # Save CSV file
+    a = np.array(avg_score)
+    np.savetxt('CSV Result/RF/rf_SMOTE_feature.csv', a, delimiter=';')

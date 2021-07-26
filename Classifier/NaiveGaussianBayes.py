@@ -225,3 +225,39 @@ def naive_GaussianBayesClassifier_with_SMOTENN():
     # Save CSV file
     a = np.array(avg_score)
     np.savetxt('CSV Result/Naive Gaussian/gaussian_SMOTE.csv', a, delimiter=';')
+
+def naive_GaussianBayesClassifier_with_SMOTENN_feature_selection():
+    smot = SMOTEENN(sampling_strategy="auto", random_state=10, n_jobs=4)
+    gaussianBayes = GaussianNB()
+#    pipeline = make_pipeline(smot, clf_tree, verbose=True)
+    score_array = []
+    accuracy = []
+    for i in range(1, n_fold_split):
+        X_train = np.load(f"split/Xtr_fold_{i}.npy")
+        X_test = np.load(f"split/Xte_fold_{i}.npy")
+        y_train = np.load(f"split/ytr_fold_{i}.npy")
+        y_test = np.load(f"split/yte_fold_{i}.npy")
+
+        selection = SelectKBest(chi2, k=20).fit(X_train, y_train)
+        X_new_train = selection.transform(X_train)
+        X_new_test = selection.transform(X_test)
+
+
+        X_train_smtk, y_train_smtk = smot.fit_resample(X_new_train, y_train)
+#        y_pred = pipeline.fit(X_train, y_train).predict(X_test)
+        trained_GB = gaussianBayes.fit(X_train_smtk, y_train_smtk)
+        y_pred = trained_GB.predict(X_new_test)
+        accuracy.append(accuracy_score(y_test, y_pred))
+        score_array.append(precision_recall_fscore_support(y_test, y_pred, average=None))
+    avg_score = np.mean(score_array, axis=0)
+    avg_accuracy = np.mean(accuracy, axis=0)
+
+    print("Accuracy score for SMOTE GaussianB")
+    print(avg_accuracy)
+
+    print("Prec - Recall - F1 values for SMOTEEN GB feature")
+    print(avg_score)
+
+    # Save CSV file
+    a = np.array(avg_score)
+    np.savetxt('CSV Result/Naive Gaussian/gaussian_SMOTE_feature.csv', a, delimiter=';')
