@@ -232,6 +232,8 @@ def knn_with_SMOTENN_feature_selection():
     score_array = []
     accuracy = []
     for i in range(1, n_fold_split):
+        print("iterazione")
+
         X_train = np.load(f"split/Xtr_fold_{i}.npy")
         X_test = np.load(f"split/Xte_fold_{i}.npy")
         y_train = np.load(f"split/ytr_fold_{i}.npy")
