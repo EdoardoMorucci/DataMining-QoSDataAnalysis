@@ -72,7 +72,7 @@ def RandomForest_on_entire_dataset_feature_selection():
         X_test = np.load(f"split/Xte_fold_{i}.npy")
         y_train = np.load(f"split/ytr_fold_{i}.npy")
         y_test = np.load(f"split/yte_fold_{i}.npy")
-        selection = SelectKBest(chi2, k=20).fit(X_train, y_train)
+        selection = SelectKBest(chi2, k=15).fit(X_train, y_train)
         X_new_train = selection.transform(X_train)
         trained_rf = rf.fit(X_new_train, y_train)
         X_new_test = selection.transform(X_test)
