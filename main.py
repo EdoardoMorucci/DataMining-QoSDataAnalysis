@@ -1,5 +1,3 @@
-
-
 n_fold_split = 6
 
 # Resampling configuration parameters
@@ -12,10 +10,10 @@ over_sampling_c2 = 20000
 over_sampling_c3 = 10000
 
 # Feature selection
-feature_selection = 1
+feature_selection = 0
 
 # Classifier parameters
-knn_neighbors = 10
+knn_neighbors = 5
 bdt_max_depth = 6
 rf_max_depth = 6
 
@@ -27,21 +25,17 @@ SMOTE = 0
 
 # Choose classifier
 KNN = 1
-BDT = 1
-naiveGaussian = 1
-RF = 1
+BDT = 0
+naiveGaussian = 0
+RF = 0
 
 # Graph Construction
 graph = 0
 graph2 = 0
 
 import time
-from matplotlib.font_manager import FontProperties
 from matplotlib.legend_handler import HandlerBase
-from matplotlib import pyplot as plt
 import numpy as np
-import matplotlib
-import matplotlib.markers as mmarkers
 import matplotlib.pyplot as plt
 import Classifier.BinaryDecisionTree as bdt
 import Classifier.KNN as knn
@@ -135,7 +129,7 @@ if __name__ == '__main__':
             if SMOTE == 1:
                 naive_gaus.naive_GaussianBayesClassifier_with_SMOTENN()
         endNG = time.perf_counter()
-        print("TOT time execution BDT: " + str(endNG - startNG))
+        print("TOT time execution NG: " + str(endNG - startNG))
 
 #    Random Forest Classifier
     if RF == 1:
@@ -160,7 +154,7 @@ if __name__ == '__main__':
             if SMOTE == 1:
                 rf.randomForest_with_SMOTENN()
         endRF = time.perf_counter()
-        print("TOT time execution: " + str(endRF - startRF))
+        print("TOT time execution RF: " + str(endRF - startRF))
 
 
 

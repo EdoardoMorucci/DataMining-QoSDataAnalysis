@@ -1,15 +1,10 @@
 import numpy as np
 from sklearn.metrics import classification_report, accuracy_score
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import cross_val_score
 from sklearn.metrics import precision_recall_fscore_support
 from imblearn.under_sampling import RandomUnderSampler
 from imblearn.over_sampling import RandomOverSampler
 from imblearn.combine import SMOTEENN
-from imblearn.combine import SMOTETomek
 from imblearn.pipeline import make_pipeline
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_selection import SelectKBest, chi2
 
