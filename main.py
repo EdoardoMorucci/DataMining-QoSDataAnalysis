@@ -31,7 +31,6 @@ RF = 0
 
 # Graph Construction
 graph = 0
-graph2 = 0
 
 import time
 from matplotlib.legend_handler import HandlerBase
@@ -156,46 +155,8 @@ if __name__ == '__main__':
         endRF = time.perf_counter()
         print("TOT time execution RF: " + str(endRF - startRF))
 
-
-
-
-
-#   Graph construction
+# Graph Construction
     if graph == 1:
-        x = [1,2,3]
-        y = [1,2,3]
-        z = ['#1f77b4']
-        print(z)
-        fig, axs = plt.subplots()
-
-        # marker symbol
-        axs.scatter(x[1], y[1], s=80, c=z, marker=">")
-        axs.set_title("marker='>'")
-
-        plt.tight_layout()
-        plt.show()
-
-
-    def mscatter(x, y, ax=None, m=None, **kw):
-        import matplotlib.markers as mmarkers
-        if not ax: ax = plt.gca()
-        sc = ax.scatter(x, y, **kw)
-        if (m is not None) and (len(m) == len(x)):
-            paths = []
-            for marker in m:
-                if isinstance(marker, mmarkers.MarkerStyle):
-                    marker_obj = marker
-                else:
-                    marker_obj = mmarkers.MarkerStyle(marker)
-                path = marker_obj.get_path().transformed(
-                    marker_obj.get_transform())
-                paths.append(path)
-            sc.set_paths(paths)
-        return sc
-
-
-
-    if graph2 == 1:
         N = 6
 
         # x = recall, y = precision
